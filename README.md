@@ -43,17 +43,21 @@ static void* pre_init(struct fuse_conn_info *conn)
 			if(strcmp(de->d_name+strlen(de->d_name)-4, ".mp3")==0)
 			{
 				FILE *source, *target;
-				char ch;
 				char source_file[10240];
 				char target_file[10240];
 				sprintf(source_file, "%s%s", filename, de->d_name);
 				sprintf(target_file, "/home/file_pindahan/%s", de->d_name);
 
-				source = fopen(source_file, "r");
-				target = fopen(target_file, "w");
+				source = fopen(source_file, "rb");
+				target = fopen(target_file, "wb");
 				
-				while ((ch = fgetc(source)) != EOF)
-      				fputc(ch, target);
+				size_t n, m;
+				unsigned char buff[8192];
+				do {
+					n = fread(buff, 1, sizeof buff, source);
+					if (n) m = fwrite(buff, 1, n, target);
+					else   m = 0;
+				} while ((n > 0) && (n == m));
 				
 				fclose(source);
    				fclose(target);
