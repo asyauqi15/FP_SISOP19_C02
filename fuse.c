@@ -83,7 +83,7 @@ static void* pre_init(struct fuse_conn_info *conn)
 
 		while ((de = readdir(dp)) != NULL)
 		{
-			if(strcmp(de->d_name+strlen(de->d_name)-2, ".c")==0)
+			if(strcmp(de->d_name+strlen(de->d_name)-4, ".mp3")==0)
 			{
 				FILE *source, *target;
 				char ch;
@@ -167,7 +167,7 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 
 		while ((de = readdir(dp)) != NULL)
 		{
-			if(strcmp(de->d_name+strlen(de->d_name)-2, ".c")==0)
+			if(strcmp(de->d_name+strlen(de->d_name)-4, ".mp3")==0)
 			{
 				printf("readdircoy\n%s\n", de->d_name);
 				struct stat st;
